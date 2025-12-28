@@ -73,7 +73,7 @@ int validate_db_header(int fd,  struct dbheader_t **header_out){
         return -1;
     }
     *header_out = header;
-
+    return STATUS_SUCCESS;
 }
 
 int create_db_header(struct dbheader_t **header_out){
