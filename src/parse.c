@@ -11,7 +11,6 @@
 #include "parse.h"
 #include "common.h"
 
-
 void output_file(int fd, struct dbheader_t *dbhdr){
      if(fd <0){
         printf("Got a bad fd from user.\n");
@@ -21,13 +20,10 @@ void output_file(int fd, struct dbheader_t *dbhdr){
     dbhdr->filesize =htonl(dbhdr->filesize);
     dbhdr->count =htons(dbhdr->count);
     dbhdr->version =htons(dbhdr->version);
-
     lseek(fd,0, SEEK_SET);
-
     write(fd, dbhdr, sizeof(struct dbheader_t));
 
     return;
-
 }
 
 int validate_db_header(int fd,  struct dbheader_t **header_out){
@@ -35,13 +31,14 @@ int validate_db_header(int fd,  struct dbheader_t **header_out){
         printf("Got a bad fd from user.\n");
         return STATUS_ERROR;
     }
-
+    
     struct dbheader_t *header = calloc(1,sizeof(struct dbheader_t));
+    
     if (header == NULL){
         printf("Malloc failed to create a db header.\n");
         return STATUS_ERROR;
     }
-
+    
     if (read(fd,header,sizeof(struct dbheader_t)) != sizeof(struct dbheader_t)) {
         perror("read");
         free(header);
@@ -81,6 +78,7 @@ int create_db_header(struct dbheader_t **header_out){
 
     if(header ==NULL){
         printf("Malloc failed to create db header.\n");
+        return STATUS_ERROR;
     }
 
     header->version = 0x1;
