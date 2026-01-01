@@ -24,5 +24,6 @@ int create_db_header(struct dbheader_t **header_out);
 int validate_db_header(int fd,  struct dbheader_t **header_out);
 int read_employees(int fd,  struct dbheader_t *dbhdr,struct employee_t **employees_out);
 int output_file(int fd, struct dbheader_t *dbhdr,struct employee_t *employees_out);
+void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees);
 
 #endif
