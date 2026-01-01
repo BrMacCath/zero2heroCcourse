@@ -11,22 +11,36 @@
 #include "parse.h"
 #include "common.h"
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees,char* addstring){
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees,char* addstring){
     printf("%s\n",addstring);
 
+    if( NULL == dbhdr) return STATUS_ERROR;
+    if( NULL == employees) return STATUS_ERROR;
+    if( NULL == *employees) return STATUS_ERROR;
+    if( NULL == addstring) return STATUS_ERROR;
+    
     char *name = strtok(addstring,",");
-
     char *addr = strtok(NULL,",");
-
     char *hours = strtok(NULL,",");
 
+    if( NULL == name) return STATUS_ERROR;
+    if( NULL == addr) return STATUS_ERROR;
+    if( NULL == hours) return STATUS_ERROR;
+
+    struct employee_t *e = *employees;
+    e = realloc(e,sizeof(e,sizeof(struct employee_t)*dbhdr->count+1));
+    if(e ==NULL){
+        return STATUS_ERROR;
+    }
+    dbhdr->count++;
     printf("%s %s %s\n",name,addr,hours);
 
-    strncpy(employees[dbhdr->count-1].name,name,sizeof(employees[dbhdr->count-1].name));
+    strncpy(e[dbhdr->count-1].name,name,sizeof(e[dbhdr->count-1].name)-1);
 
-    strncpy(employees[dbhdr->count-1].address,addr,sizeof(employees[dbhdr->count-1].address));
+    strncpy(e[dbhdr->count-1].address,addr,sizeof(e[dbhdr->count-1].address)-1);
 
-    employees[dbhdr->count-1].hours = atoi(hours);
+    e[dbhdr->count-1].hours = atoi(hours);
+    *employees = e;
 
     return STATUS_SUCCESS;
 }
