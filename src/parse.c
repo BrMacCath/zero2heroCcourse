@@ -13,7 +13,22 @@
 
 
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees){
+    if(dbhdr == NULL){
+        printf("No header");
+        return;
+    }
+
+    if(dbhdr->count ==0){
+        printf("No Employees");
+        return;
+    }
+    if(employees == NULL){
+        printf("Pointer not found");
+        return;
+    }
+
     int i=0;
+    
     for(; i<dbhdr->count; i++){
         printf("Employee %d\n",i);
         printf("\t Name: %s\n",employees[i].name);
