@@ -39,15 +39,14 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees,char* a
     if( NULL == hours) return STATUS_ERROR;
 
     struct employee_t *e = *employees;
-    e = realloc(e,sizeof(sizeof(struct employee_t)*dbhdr->count+1));
+    e = realloc(e,sizeof(struct employee_t)*dbhdr->count+1);
     if(e ==NULL){
         return STATUS_ERROR;
     }
     dbhdr->count++;
     printf("%s %s %s\n",name,addr,hours);
-
+ 
     strncpy(e[dbhdr->count-1].name,name,sizeof(e[dbhdr->count-1].name)-1);
-
     strncpy(e[dbhdr->count-1].address,addr,sizeof(e[dbhdr->count-1].address)-1);
 
     e[dbhdr->count-1].hours = atoi(hours);
